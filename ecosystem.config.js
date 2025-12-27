@@ -23,7 +23,7 @@ module.exports = {
             repo: 'git@github.com:woodpecker-eye/cashback-shoppe.git',
             ssh_options: ['ForwardAgent=yes', 'PasswordAuthentication=no', 'StrictHostKeyChecking=no'],
             path: '/opt/shoback',
-            "post-deploy": "npm install"
+            "post-deploy": "npm install && pm2 reload shoback"
         },
     }
 };

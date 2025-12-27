@@ -11,6 +11,7 @@ router.get('/get_link', [
         .isURL()
         .withMessage('url is invalid format'),
     query("sub_id")
+        .default("mucuasut")
         .exists()
         .isString()
         .withMessage('sub_id is invalid format'),

@@ -1,0 +1,120 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title ShoBack
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 100px;
+      }
+      .box { width: 600px; }
+      input {
+        width: 100%;
+        padding: 14px;
+        font-size: 18px;
+        border-radius: 24px;
+        border: 1px solid #dcdcdc;
+        outline: none;
+      }
+      input:focus {
+        box-shadow: 0 1px 6px rgba(32,33,36,.28);
+        border-color: transparent;
+      }
+      .muted { color: #666; font-size: 13px; margin-top: 8px; }
+      .result { margin-top: 18px; }
+      .item { padding: 10px 0; border-bottom: 1px solid #eee; }
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+      .error { color: #b00020; }
+      .ok { color: #0a7; font-size: 12px; margin-top: 6px; }
+      .row { display:flex; gap: 10px; align-items:center; margin-top: 10px; }
+      button.copy {
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+      }
+      button.copy:hover { background: #f7f7f7; }
+
+  body
+    .box
+      form#searchForm
+        input#q(type="text" placeholder="Paste Shopee URL..." autocomplete="off" autofocus)
+      .muted Nhấn Enter để tạo shortLink (kết quả hiển thị bên dưới)
+
+      .result#result
+
+    script.
+      const form = document.getElementById("searchForm");
+      const input = document.getElementById("q");
+      const resultBox = document.getElementById("result");
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          "\"":"&quot;",
+          "'":"&#39;"
+        }[c]));
+      }
+
+      async function callApi(q) {
+        const url = "/shopee/get_link?url=" + encodeURIComponent(q);
+        const r = await fetch(url, { method: "GET" });
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      }
+
+      function render(data) {
+        // data = { success, shortLink, failCode }
+        if (!data || !data.success || !data.shortLink) {
+          const code = data && typeof data.failCode !== "undefined" ? data.failCode : "unknown";
+          resultBox.innerHTML = `<div class="error">Không tạo được link. failCode: ${escapeHtml(code)}</div>`;
+          return;
+        }
+
+        const link = escapeHtml(data.shortLink);
+
+        resultBox.innerHTML = `
+          <div class="item">
+            <div><a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a></div>
+            <div class="row">
+              <button class="copy" id="copyBtn" type="button">Copy</button>
+              <span class="ok">success</span>
+            </div>
+          </div>
+        `;
+
+        // copy button
+        const btn = document.getElementById("copyBtn");
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(data.shortLink);
+            btn.textContent = "Copied!";
+            setTimeout(() => (btn.textContent = "Copy"), 900);
+          } catch (e) {
+            btn.textContent = "Copy failed";
+            setTimeout(() => (btn.textContent = "Copy"), 900);
+          }
+        });
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const q = input.value.trim();
+        resultBox.innerHTML = q ? "<div>Loading...</div>" : "";
+        if (!q) return;
+
+        try {
+          const data = await callApi(q);
+          render(data);
+        } catch (err) {
+          resultBox.innerHTML = `<div class="error">API error: ${escapeHtml(err.message || err)}</div>`;
+        }
+      });

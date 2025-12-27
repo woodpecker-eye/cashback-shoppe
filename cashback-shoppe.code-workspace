@@ -1,0 +1,54 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.fontSize": 13,
+		"editor.tabSize": 4,
+		"editor.detectIndentation": true,
+		"editor.insertSpaces": true,
+		"workbench.tree.indent": 16,
+		"terminal.integrated.fontSize": 13,
+		"editor.formatOnSave": true,
+		"cSpell.ignoreRegExpList": [
+			".*"
+		],
+		"compile-hero.disable-compile-files-on-did-save-code": false
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "pwa-node",
+				"request": "launch",
+				"name": "Current File",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"program": "${file}",
+				"outputCapture": "std",
+				"env": {
+					"NODE_ENV": "debug",
+				}
+			},
+			{
+				"type": "pwa-node",
+				"request": "launch",
+				"name": "Webservice",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"program": "${workspaceFolder}/bin/www",
+				"runtimeVersion": "16.20.2",
+				"cwd": "${workspaceFolder}",
+				"env": {
+					"PORT": "8090",
+					"NODE_ENV": "debug",
+				},
+				"outputCapture": "std"
+			}
+		]
+	},
+}

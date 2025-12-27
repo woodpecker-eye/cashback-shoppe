@@ -3,65 +3,346 @@ html
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    title ShoBack
+    title Shopee Cashback Link
     style.
-      body {
-        font-family: Arial, sans-serif;
-        display: flex;
-        justify-content: center;
-        margin-top: 100px;
+      :root{
+        --bg1:#0b1020;
+        --bg2:#101b3a;
+        --card: rgba(255,255,255,.08);
+        --card2: rgba(255,255,255,.12);
+        --text: rgba(255,255,255,.92);
+        --muted: rgba(255,255,255,.62);
+        --line: rgba(255,255,255,.12);
+        --shadow: 0 20px 60px rgba(0,0,0,.45);
+        --glow: 0 0 0 1px rgba(255,255,255,.10), 0 10px 40px rgba(0,0,0,.35);
+        --radius: 22px;
       }
-      .box { width: 600px; }
-      input {
-        width: 100%;
-        padding: 14px;
-        font-size: 18px;
-        border-radius: 24px;
-        border: 1px solid #dcdcdc;
-        outline: none;
+
+      *{ box-sizing:border-box; }
+      body{
+        margin:0;
+        min-height:100vh;
+        color:var(--text);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        background:
+          radial-gradient(1200px 700px at 15% 15%, rgba(94,234,212,.18), transparent 60%),
+          radial-gradient(900px 600px at 85% 25%, rgba(168,85,247,.22), transparent 55%),
+          radial-gradient(1000px 800px at 55% 95%, rgba(59,130,246,.18), transparent 55%),
+          linear-gradient(140deg, var(--bg1), var(--bg2));
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding: 28px 16px;
+        overflow-x:hidden;
       }
-      input:focus {
-        box-shadow: 0 1px 6px rgba(32,33,36,.28);
-        border-color: transparent;
+
+      .wrap{
+        width:min(740px, 100%);
       }
-      .muted { color: #666; font-size: 13px; margin-top: 8px; }
-      .result { margin-top: 18px; }
-      .item { padding: 10px 0; border-bottom: 1px solid #eee; }
-      a { text-decoration: none; }
-      a:hover { text-decoration: underline; }
-      .error { color: #b00020; }
-      .ok { color: #0a7; font-size: 12px; margin-top: 6px; }
-      .row { display:flex; gap: 10px; align-items:center; margin-top: 10px; }
-      button.copy {
-        padding: 8px 12px;
+
+      .brand{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin-bottom:14px;
+      }
+      .logo{
+        width:44px; height:44px;
+        border-radius:14px;
+        background:
+          radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.65), transparent 60%),
+          linear-gradient(135deg, rgba(94,234,212,.9), rgba(168,85,247,.85));
+        box-shadow: var(--glow);
+      }
+      .title{
+        line-height:1.05;
+      }
+      .title h1{
+        margin:0;
+        font-size: 20px;
+        letter-spacing:.2px;
+      }
+      .title p{
+        margin:4px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .card{
+        border-radius: var(--radius);
+        background: linear-gradient(180deg, var(--card), rgba(255,255,255,.05));
+        border: 1px solid rgba(255,255,255,.10);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(14px);
+        padding: 18px;
+        position:relative;
+        overflow:hidden;
+      }
+      .card:before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background:
+          radial-gradient(500px 200px at 10% 0%, rgba(94,234,212,.18), transparent 55%),
+          radial-gradient(500px 200px at 90% 0%, rgba(168,85,247,.18), transparent 55%);
+        pointer-events:none;
+        opacity:.9;
+      }
+      .card > *{ position:relative; }
+
+      .searchRow{
+        display:flex;
+        gap:10px;
+        align-items:center;
+      }
+
+      .inputWrap{
+        flex:1;
+        position:relative;
+      }
+      .input{
+        width:100%;
+        padding: 14px 46px 14px 16px;
+        font-size: 15px;
+        color: var(--text);
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.18);
+        outline:none;
+        transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+      }
+      .input::placeholder{ color: rgba(255,255,255,.45); }
+      .input:focus{
+        border-color: rgba(255,255,255,.30);
+        box-shadow: 0 0 0 6px rgba(59,130,246,.18);
+        transform: translateY(-1px);
+      }
+
+      .kbd{
+        position:absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12px;
+        color: rgba(255,255,255,.55);
+        border: 1px solid rgba(255,255,255,.16);
+        background: rgba(255,255,255,.06);
+        padding: 6px 8px;
         border-radius: 10px;
-        border: 1px solid #ddd;
-        background: white;
-        cursor: pointer;
       }
-      button.copy:hover { background: #f7f7f7; }
+
+      .btn{
+        border: 0;
+        cursor:pointer;
+        padding: 12px 14px;
+        border-radius: 16px;
+        color: rgba(255,255,255,.92);
+        background:
+          linear-gradient(135deg, rgba(94,234,212,.95), rgba(59,130,246,.9), rgba(168,85,247,.92));
+        box-shadow: 0 12px 30px rgba(59,130,246,.25);
+        font-weight: 700;
+        letter-spacing:.2px;
+        transition: transform .12s ease, filter .12s ease, opacity .12s ease;
+        min-width: 120px;
+      }
+      .btn:hover{ transform: translateY(-1px); filter:saturate(1.08); }
+      .btn:active{ transform: translateY(0px) scale(.98); }
+      .btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+      .hint{
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        flex-wrap:wrap;
+      }
+      .hint .pill{
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        padding: 8px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(255,255,255,.05);
+      }
+      .dot{
+        width:8px;height:8px;border-radius:50%;
+        background: rgba(94,234,212,.95);
+        box-shadow: 0 0 18px rgba(94,234,212,.45);
+      }
+
+      .result{
+        margin-top: 16px;
+        border-top: 1px solid var(--line);
+        padding-top: 14px;
+        display:none;
+      }
+
+      .resultCard{
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,.12);
+        background: rgba(0,0,0,.16);
+        padding: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      }
+
+      .row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        flex-wrap:wrap;
+      }
+
+      .label{
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .link{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        flex-wrap:wrap;
+      }
+      .link a{
+        color: rgba(255,255,255,.95);
+        text-decoration:none;
+        border-bottom: 1px dashed rgba(255,255,255,.35);
+      }
+      .link a:hover{
+        border-bottom-color: rgba(255,255,255,.8);
+      }
+
+      .miniBtn{
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(255,255,255,.06);
+        color: rgba(255,255,255,.9);
+        padding: 10px 12px;
+        border-radius: 14px;
+        cursor:pointer;
+        transition: transform .12s ease, background .12s ease;
+        font-weight: 600;
+      }
+      .miniBtn:hover{ background: rgba(255,255,255,.10); transform: translateY(-1px); }
+      .miniBtn:active{ transform: translateY(0px) scale(.98); }
+
+      .status{
+        font-size: 12px;
+        color: rgba(94,234,212,.92);
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+      }
+      .status .okDot{
+        width:8px;height:8px;border-radius:50%;
+        background: rgba(94,234,212,.95);
+        box-shadow: 0 0 18px rgba(94,234,212,.35);
+      }
+
+      .error{
+        color: rgba(255,140,140,.95);
+      }
+
+      .spinner{
+        width:16px;height:16px;border-radius:50%;
+        border: 2px solid rgba(255,255,255,.25);
+        border-top-color: rgba(255,255,255,.85);
+        animation: spin .8s linear infinite;
+        display:inline-block;
+        vertical-align:middle;
+        margin-right:8px;
+      }
+      @keyframes spin{ to{ transform: rotate(360deg); } }
+
+      .toast{
+        position: fixed;
+        left:50%;
+        bottom: 18px;
+        transform: translateX(-50%) translateY(20px);
+        opacity:0;
+        pointer-events:none;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,.14);
+        background: rgba(0,0,0,.35);
+        backdrop-filter: blur(10px);
+        color: rgba(255,255,255,.92);
+        box-shadow: 0 18px 40px rgba(0,0,0,.35);
+        transition: opacity .18s ease, transform .18s ease;
+        font-size: 13px;
+      }
+      .toast.show{
+        opacity:1;
+        transform: translateX(-50%) translateY(0px);
+      }
+
+      @media (max-width: 520px){
+        .btn{ min-width: 110px; }
+        .kbd{ display:none; }
+        .input{ padding-right: 16px; }
+      }
 
   body
-    .box
-      form#searchForm
-        input#q(type="text" placeholder="Paste Shopee URL..." autocomplete="off" autofocus)
-      .muted Nhấn Enter để tạo shortLink (kết quả hiển thị bên dưới)
+    .wrap
+      .brand
+        .logo
+        .title
+          h1 Shopee Cashback Link
+          p Dán link Shopee → Enter hoặc bấm Tạo link → hiện shortLink bên dưới
 
-      .result#result
+      .card
+        form#searchForm
+          .searchRow
+            .inputWrap
+              input#q.input(type="text" placeholder="Paste Shopee URL…" autocomplete="off" autofocus)
+              .kbd Enter
+            button#goBtn.btn(type="submit") Tạo link
+
+        .hint
+          span.pill
+            span.dot
+            | Gọi API cùng domain: 
+            code(style="color: rgba(255,255,255,.78)") /shopee/get_link
+          span.pill
+            | Tip: Link hiển thị có nút Copy
+
+        .result#result
+          .resultCard
+            .label Kết quả
+            .row
+              .link#linkWrap
+              .row
+                button#copyBtn.miniBtn(type="button") Copy
+                span#status.status
+
+    .toast#toast
 
     script.
       const form = document.getElementById("searchForm");
       const input = document.getElementById("q");
-      const resultBox = document.getElementById("result");
+      const result = document.getElementById("result");
+      const linkWrap = document.getElementById("linkWrap");
+      const copyBtn = document.getElementById("copyBtn");
+      const status = document.getElementById("status");
+      const goBtn = document.getElementById("goBtn");
+      const toast = document.getElementById("toast");
+
+      let lastLink = "";
 
       function escapeHtml(s) {
         return String(s).replace(/[&<>"']/g, c => ({
-          "&":"&amp;",
-          "<":"&lt;",
-          ">":"&gt;",
-          "\"":"&quot;",
-          "'":"&#39;"
+          "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
         }[c]));
+      }
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 900);
       }
 
       async function callApi(q) {
@@ -71,50 +352,71 @@ html
         return r.json();
       }
 
-      function render(data) {
-        // data = { success, shortLink, failCode }
-        if (!data || !data.success || !data.shortLink) {
-          const code = data && typeof data.failCode !== "undefined" ? data.failCode : "unknown";
-          resultBox.innerHTML = `<div class="error">Không tạo được link. failCode: ${escapeHtml(code)}</div>`;
-          return;
+      function setLoading(isLoading) {
+        goBtn.disabled = isLoading;
+        if (isLoading) {
+          goBtn.innerHTML = '<span class="spinner"></span>Đang xử lý';
+        } else {
+          goBtn.textContent = "Tạo link";
         }
-
-        const link = escapeHtml(data.shortLink);
-
-        resultBox.innerHTML = `
-          <div class="item">
-            <div><a href="${link}" target="_blank" rel="noopener noreferrer">${link}</a></div>
-            <div class="row">
-              <button class="copy" id="copyBtn" type="button">Copy</button>
-              <span class="ok">success</span>
-            </div>
-          </div>
-        `;
-
-        // copy button
-        const btn = document.getElementById("copyBtn");
-        btn.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(data.shortLink);
-            btn.textContent = "Copied!";
-            setTimeout(() => (btn.textContent = "Copy"), 900);
-          } catch (e) {
-            btn.textContent = "Copy failed";
-            setTimeout(() => (btn.textContent = "Copy"), 900);
-          }
-        });
       }
+
+      function renderError(message) {
+        result.style.display = "block";
+        lastLink = "";
+        linkWrap.innerHTML = `<span class="error">${escapeHtml(message)}</span>`;
+        status.innerHTML = "";
+        copyBtn.disabled = true;
+        copyBtn.style.opacity = .55;
+      }
+
+      function renderSuccess(shortLink) {
+        result.style.display = "block";
+        lastLink = shortLink;
+
+        const safe = escapeHtml(shortLink);
+        linkWrap.innerHTML = `
+          <a href="${safe}" target="_blank" rel="noopener noreferrer">${safe}</a>
+          <span style="color: var(--muted); font-size: 12px;">(mở tab mới)</span>
+        `;
+        status.innerHTML = `<span class="okDot"></span> success`;
+        copyBtn.disabled = false;
+        copyBtn.style.opacity = 1;
+      }
+
+      copyBtn.addEventListener("click", async () => {
+        if (!lastLink) return;
+        try {
+          await navigator.clipboard.writeText(lastLink);
+          showToast("Đã copy shortLink ✅");
+        } catch (e) {
+          showToast("Copy thất bại ❌");
+        }
+      });
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const q = input.value.trim();
-        resultBox.innerHTML = q ? "<div>Loading...</div>" : "";
-        if (!q) return;
+        if (!q) {
+          renderError("Bạn chưa nhập URL.");
+          return;
+        }
 
+        setLoading(true);
         try {
           const data = await callApi(q);
-          render(data);
+
+          // data: { success: true, shortLink: "...", failCode: 0 }
+          if (!data || !data.success || !data.shortLink) {
+            const code = (data && typeof data.failCode !== "undefined") ? data.failCode : "unknown";
+            renderError(`Không tạo được link (failCode: ${code}).`);
+          } else {
+            renderSuccess(data.shortLink);
+            showToast("Tạo link thành công ✨");
+          }
         } catch (err) {
-          resultBox.innerHTML = `<div class="error">API error: ${escapeHtml(err.message || err)}</div>`;
+          renderError(`API error: ${err.message || err}`);
+        } finally {
+          setLoading(false);
         }
       });

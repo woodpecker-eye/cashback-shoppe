@@ -9,6 +9,9 @@ module.exports = {
             autorestart: true,
             watch: false,
             time: true,
+            env: {
+                PORT: 8090
+            }
         },
     ],
 

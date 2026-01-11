@@ -1,3 +1,52 @@
+// const winston = require('winston')
+// const path = require('path')
+// const conf = require("config")
+// const lodash = require("lodash")
+
+// const logger = winston.createLogger({
+//     format: winston.format.combine(
+//         winston.format.splat(),
+//         winston.format.timestamp({
+//             format: 'YYYY-MM-DD HH:mm:ss.SSS'
+//         }),
+
+//         winston.format.colorize(),
+//         winston.format.printf(
+//             log => {
+//                 if (log.stack) return `[${log.timestamp}] [${log.level}] ${log.stack}`;
+//                 return `[${log.timestamp}] [${log.level}] ${log.message}`;
+//             },
+//         ),
+//     ),
+//     transports: [
+//         new winston.transports.Console(),
+//         // new winston.transports.File({
+//         //     level: 'info',
+//         //     filename: path.join(__dirname, 'audit.log')
+//         // })
+//     ],
+// })
+
+// // if (lodash.isNil(process.env.NODE_ENV) === true) {
+// //     logger.error("Cannot found NODE_ENV in enviroment variable")
+// //     process.exit(1)
+// // }
+
+// // logger.info("config info: %s", JSON.stringify(conf, null, "    "))
+// // logger.info("Config load from: %s.json", process.env.NODE_ENV ? process.env.NODE_ENV : "default")
+
+// module.exports = logger
+
+
+
+
+
+
+
+
+
+
+
 
 
 const winston = require('winston');

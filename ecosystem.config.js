@@ -13,6 +13,19 @@ module.exports = {
                 PORT: 8090
             }
         },
+        {
+            name: 'shobackbot',
+            script: 'services/tele_bot.js',
+            exec_mode: 'fork',
+            instances: 1,
+            restart_delay: 10000,
+            autorestart: true,
+            watch: false,
+            time: true,
+            env: {
+                PORT: 8090
+            }
+        },
     ],
 
     deploy: {

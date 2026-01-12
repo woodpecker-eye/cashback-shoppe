@@ -41,6 +41,7 @@ bot.on('message', async (ctx) => {
         let linkData = await shopeeService.getLink(urls, `${from.id}`)
 
         if (lodash.has(linkData, "data.batchCustomLink") === false) {
+            xlog.info("Có vấn đề khi lấy link", linkData)
             return ctx.reply(`Có chút vấn đề không thể lấy được shortlink. Làm ơn liên hệ ${CONTACT}`)
         }
 

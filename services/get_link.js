@@ -32,12 +32,28 @@ async function getRedirectURL(url) {
     }
 }
 
-async function getLink(url, subId) {
+async function getLink(urls, subId) {
     try {
-        let destURL = await getRedirectURL(url)
-        let urlParsed = new URL(destURL)
+        let linkParams = []
 
-        let cleanUrl = urlParsed.origin + urlParsed.pathname
+        let cleanUrls = []
+        for (let url of urls) {
+            let destURL = await getRedirectURL(url)
+            let urlParsed = new URL(destURL)
+
+            let cleanUrl = urlParsed.origin + urlParsed.pathname
+            cleanUrls.push(cleanUrl)
+
+            linkParams.push(
+                {
+                    originalLink: cleanUrl,
+                    advancedLinkParams: {
+                        subId1: subId
+                    }
+                }
+            )
+        }
+
 
         const options = {
             method: 'POST',
@@ -71,14 +87,7 @@ async function getLink(url, subId) {
                     }
                 `,
                 variables: {
-                    linkParams: [
-                        {
-                            originalLink: cleanUrl,
-                            advancedLinkParams: {
-                                subId1: subId
-                            }
-                        }
-                    ],
+                    linkParams: linkParams,
                     sourceCaller: 'CUSTOM_LINK_CALLER'
                 }
             },

@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "ShoBack",
+  "version": "1.0.0",
+  "description": "Lấy thông tin từ affiliate.shopee.vn",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://affiliate.shopee.vn/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://affiliate.shopee.vn/*"],
+      "js": ["content.js", "panel.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["panel.css"],
+      "matches": ["https://affiliate.shopee.vn/*"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "ShoBack"
+  }
+}

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>ShoBack</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: sans-serif;
+      width: 340px;
+      padding: 14px 16px;
+      background: #fff;
+      margin: 0;
+    }
+    h3 { margin: 0 0 12px; color: #ee4d2d; font-size: 15px; }
+    label { font-size: 11px; color: #555; display: block; margin-bottom: 3px; margin-top: 10px; }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 7px 9px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 12px;
+      resize: vertical;
+    }
+    textarea { height: 80px; }
+
+    button#submit {
+      margin-top: 14px;
+      width: 100%;
+      background: #ee4d2d;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 9px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button#submit:disabled { background: #bbb; cursor: not-allowed; }
+
+    #status { margin-top: 8px; font-size: 12px; min-height: 16px; color: #555; }
+    #status.err { color: #c00; }
+    #status.ok  { color: #080; }
+
+    /* Kết quả */
+    #result-box { display: none; margin-top: 12px; }
+    #result-box .result-title {
+      font-size: 11px; color: #555; margin-bottom: 4px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    #result-box .result-title button {
+      font-size: 11px; padding: 2px 8px;
+      background: #ee4d2d; color: #fff; border: none;
+      border-radius: 3px; cursor: pointer;
+    }
+    #result-links {
+      background: #f8f8f8;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 12px;
+      word-break: break-all;
+      white-space: pre-wrap;
+      max-height: 160px;
+      overflow-y: auto;
+    }
+    #copy-status { font-size: 11px; color: #080; min-height: 14px; margin-top: 4px; }
+  </style>
+</head>
+<body>
+  <h3>ShoBack</h3>
+  <div id="ws-status" style="font-size:11px;padding:3px 7px;border-radius:3px;display:inline-block;margin-bottom:8px;background:#eee;color:#888">WS: đang kiểm tra...</div>
+
+  <label>URLs (mỗi link 1 dòng)</label>
+  <textarea id="urls" placeholder="https://shopee.vn/..."></textarea>
+
+  <label>Sub_id1</label>
+  <input type="text" id="subId1" placeholder="vd: tele_bot" />
+
+  <button id="submit">Điền & Lấy link</button>
+  <div id="status"></div>
+
+  <div id="result-box">
+    <div class="result-title">
+      <span>Kết quả</span>
+      <button id="copy-btn">Copy tất cả</button>
+    </div>
+    <div id="result-links"></div>
+    <div id="copy-status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
